@@ -10,18 +10,27 @@ require('./config/db').connect()
 const express= require('express')
 const app=express()
 
+//Habilitando JSON
+app.use(
+    express.urlencoded({
+        extended:true
+    })
+)
+app.use(express.json())
+
 //Acesso pasta public
 app.use(express.static('public'))
 
 //View engine
 app.set('view engine', 'ejs')
 
-//Preparando as rotas
+//Configuração das rotas
 const indexRouter = require('./routes/index')
+const produtosRouter = require('./routes/produtos')
 
-//Rota principal
+//Habilitação das Rotas
 app.use('/',indexRouter)
-
+app.use('/produtos',produtosRouter)
 
 //Inicializando o servidor:
 app.listen(process.env.PORT || 3000, console.log("Servidor em execução"))
